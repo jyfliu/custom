@@ -1,14 +1,30 @@
-%     Created: Wed Jan 16 05:00 PM 2019 EST
-% Last Change: Tue Jan 22 10:50 PM 2019 EST
+%        File: Jeffrey.tex
 %
 \documentclass[a4paper]{article}
 \usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage{amsmath}
 \usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{amsthm}
 % Formatting
 \setlength{\parskip}{\baselineskip}
 \setlength{\parindent}{0pt}
+\setlist[itemize]{noitemsep, topsep=-8pt}
+\setlist[enumerate]{noitemsep, topsep=-8pt}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
 
 % blackboard bold letters
 \newcommand{\bA}{\mathbb{A}}
@@ -104,6 +120,8 @@
 \newcommand{\ST}{\text{ such that }}
 \newcommand{\LHS}{\text{LHS}}
 \newcommand{\RHS}{\text{RHS}}
+\newcommand{\EVEN}{\text{ even }}
+\newcommand{\ODD}{\text{ odd }}
 \newcommand{\QAND}{\quad\text{ and }\quad}
 \newcommand{\QFOR}{\quad\text{ for }\quad}
 \newcommand{\QFORAL}{\quad\text{ for all }\quad}
@@ -113,13 +131,18 @@
 \newcommand{\QST}{\quad\text{ st }\quad}
 \newcommand{\QLHS}{\quad\text{ LHS }\quad}
 \newcommand{\QRHS}{\quad\text{ RHS }\quad}
+\newcommand{\QEVEN}{\quad\text{ even }\quad}
+\newcommand{\QODD}{\quad\text{ odd }\quad}
 
 % functions and operators
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+
 
 % math 147
 
-\newcommand{\abs}[1]{\lvert#1\rvert}
-\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \newcommand{\db}{\text{d}}
 \newcommand{\dd}[1]{\frac{\text{d}}{\text{d}#1}}
 \newcommand{\dbyd}[2]{\frac{\text{d}#1}{\text{d}#2}}
@@ -137,6 +160,7 @@
 \newcommand{\lcol}{\operatorname{col}}
 \newcommand{\lrow}{\operatorname{row}}
 \newcommand{\ltr}{\operatorname{tr}}
+\newcommand{\ldim}{\operatorname{dim}}
 
 \newcommand{\va}{\vec{a}}
 \newcommand{\vb}{\vec{b}}
@@ -164,15 +188,27 @@
 \newcommand{\vx}{\vec{x}}
 \newcommand{\vy}{\vec{y}}
 \newcommand{\vz}{\vec{z}}
+% augmented matrices
+%\makeatletter
+%\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+%  \hskip -\arraycolsep%
+%  \let\@ifnextchar\new@ifnextchar%
+%  \array{#1}}%
+%\makeatother%
 
 % math 249
 \def\multiset#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
 \newcommand{\fall}[1]{^{\mspace{2mu}\underline{\mspace{-2mu}#1\mspace{-2mu}}\mspace{2mu}}}
 \newcommand{\rise}[1]{^{\mspace{2mu}\overline{\mspace{-2mu}#1\mspace{-2mu}}\mspace{2mu}}}
+\newcommand{\pr}{\text{pr}}
+\newcommand{\LCA}{\text{LCA}}
+\newcommand{\level}{\text{level}}
+\newcommand{\girth}{\text{girth}}
 
 % stat 230
-\newcommand{\probdef}{\frac{\text{\# Favourable Outcomes}}{\# Total Outcomes}}
+\newcommand{\probdef}{\frac{\text{\# Favourable Outcomes}}{\text{\# Total Outcomes}}}
 
 \begin{document}
 
 \end{document}
+
