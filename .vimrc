@@ -1,9 +1,9 @@
 set nocompatible
 filetype off
 
-set rtp+=$VIM\vimfiles\bundle\Vundle.vim
-"call vundle#begin('C:\Program Files (x86)\Vim\vimfiles')
-"let vundlepath=$VIM\vimfiles\bundle
+set rtp+=~/.vim/bundle/Vundle.vim
+"windows
+"set rtp+=$VIM\vimfiles\bundle\Vundle.vim
 call vundle#begin()
 
 " vundle
@@ -17,8 +17,11 @@ Plugin 'romainl/flattened'
 
 " essentials
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
 Plugin 'vim-syntastic/syntastic'
 "Plugin 'Townk/vim-autoclose'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'wincent/command-t'
 
 "unicode
 Plugin 'chrisbra/unicode.vim' 
@@ -27,6 +30,11 @@ Plugin 'chrisbra/unicode.vim'
 "latex stuffs
 Plugin 'vim-latex/vim-latex'
 
+" html
+Plugin 'mattn/emmet-vim'
+
+" linter
+Plugin 'w0rp/ale'
 call vundle#end()
 filetype plugin indent on
 syntax enable
@@ -62,13 +70,25 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-l> <C-W>l
 
+" resize splits
+nnoremap <Up>    :resize +2<CR>
+nnoremap <Down>  :resize -2<CR>
+nnoremap <Left>  :vertical resize +2<CR>
+nnoremap <Right> :vertical resize -2<CR>
 
 " better begin/end of line
 nnoremap B ^
 nnoremap E $
 
+" Make indenting and unindenting block selections not lose the selection
+vnoremap < <gv
+vnoremap > >gv
+
 " highlight the last inserted text
 nnoremap gV `[v`]
+
+" when editing a file that requires root, try to save using sudo
+cmap w!! %!sudo tee > /dev/null %
 
 " show line numbers 
 set number
@@ -96,7 +116,11 @@ set shiftwidth=4
 set autoindent
 set smartindent
 
+set expandtab
+
 set textwidth=160
+
+set colorcolumn=80
 
 " ayu
 "set termguicolors
@@ -150,6 +174,14 @@ set encoding=utf-8
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
+map <C-n> :NERDTreeToggle<CR>
+
 " disable autoclose in latex
 "autocmd BufNewFile,BufRead *.tex AutoCloseOff
 
+" strip trailing white spaces in py, js, css, html, tpl files
+autocmd BufWritePre *.py,*.js,*.css,*.html,*.tpl :%s/\s\+$//e
+
+" ale
+let g:ale_linters = {'python':['pyflakes'],'C':['gcc'],'C++':['gcc']}
+let g:ale_sign_column_always = 1
