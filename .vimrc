@@ -196,6 +196,9 @@ autocmd BufWritePre *.py,*.js,*.css,*.html,*.tpl :%s/\s\+$//e
 let g:ale_linters = {'python':['pyflakes'],'C':['gcc'],'C++':['gcc']}
 let g:ale_sign_column_always = 1
 
+" command t
+let g:CommandTSuppressMaxFilesWarning = 1
+
 " tags
 nnoremap L <C-]>
 nnoremap H <C-t>
