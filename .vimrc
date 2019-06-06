@@ -18,7 +18,7 @@ Plugin 'romainl/flattened'
 " essentials
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'vim-syntastic/syntastic'
+"Plugin 'vim-syntastic/syntastic'
 "Plugin 'Townk/vim-autoclose'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'wincent/command-t'
@@ -75,6 +75,16 @@ nnoremap <Up>    :resize +2<CR>
 nnoremap <Down>  :resize -2<CR>
 nnoremap <Left>  :vertical resize +2<CR>
 nnoremap <Right> :vertical resize -2<CR>
+
+" better delete
+nnoremap x "_x
+nnoremap d "_d
+nnoremap D "_D
+vnoremap d "_d
+
+nnoremap <leader>d ""d
+nnoremap <leader>D ""D
+vnoremap <leader>d ""d
 
 " better begin/end of line
 nnoremap B ^
@@ -185,3 +195,7 @@ autocmd BufWritePre *.py,*.js,*.css,*.html,*.tpl :%s/\s\+$//e
 " ale
 let g:ale_linters = {'python':['pyflakes'],'C':['gcc'],'C++':['gcc']}
 let g:ale_sign_column_always = 1
+
+" tags
+nnoremap L <C-]>
+nnoremap H <C-t>
