@@ -39,7 +39,8 @@ Plugin 'vim-latex/vim-latex'
 Plugin 'mattn/emmet-vim'
 
 " scala
-Plugin 'derekwyatt/vim-scala'
+"Plugin 'derekwyatt/vim-scala'
+Plugin 'ensime/ensime-vim'
 
 " js
 Plugin 'flowtype/vim-flow'
@@ -292,3 +293,8 @@ endif
 if executable(local_flow)
   let g:flow#flowpath = local_flow
 endif
+
+"flow settings
+let g:flow#autoclose = 1
+let g:flow#showquickfix = 0
+let g:flow#omnifunc = 0
