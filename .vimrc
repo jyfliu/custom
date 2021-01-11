@@ -14,6 +14,7 @@ Plugin 'ayu-theme/ayu-vim'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'romainl/flattened'
 "Plugin 'itchyny/lightline.vim'
+Plugin 'itchyny/vim-gitbranch'
 
 " essentials
 Plugin 'scrooloose/nerdtree'
@@ -23,9 +24,10 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'alvan/vim-closetag'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'tpope/vim-surround'
-Plugin 'wincent/command-t'
+"Plugin 'wincent/command-t'
+Plugin 'junegunn/fzf'
 Plugin 'djoshea/vim-autoread'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 Plugin 'chrisbra/improvedft'
 
 "unicode
@@ -40,7 +42,7 @@ Plugin 'mattn/emmet-vim'
 
 " scala
 "Plugin 'derekwyatt/vim-scala'
-Plugin 'ensime/ensime-vim'
+"Plugin 'ensime/ensime-vim'
 
 " js
 Plugin 'flowtype/vim-flow'
@@ -78,11 +80,26 @@ nnoremap k gk
 vnoremap j gj
 vnoremap k gk
 
+" center after scrolling to bottom
+nnoremap G Gzz
+
+" see 5 lines above and below cursor
+set so=5
+
+" chrome style tabs
+nnoremap <C-t> :tabe .<CR>
+nnoremap <C-w> :q<CR>
+
+
+" still be able to open panes (only vertical ones cus who uses horizontal panes)
+nnoremap <C-n> <C-w>v
+" we no longer can use <C-n> to open up nerd tree... but i never use that anyways
+
 " movement between panes
-map <C-h> <C-W>h
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-l> <C-W>l
+nnoremap <C-h> <C-W>h
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-l> <C-W>l
 
 " resize splits
 nnoremap <Up>    :resize +2<CR>
@@ -120,12 +137,17 @@ inoremap <leader>s <C-c>:w<cr>a
 " faster colon
 nnoremap <space> :
 vnoremap <space> :
+nnoremap ; :
+vnoremap ; :
 
 " faster change word (you can press . to repeat all instances of the word)
 nnoremap c* *``cgn
 nnoremap c# #``cgN
 nnoremap d* /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgn
 nnoremap d# ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
+
+" change word under cursor
+nnoremap cr bcw
 
 " better begin/end of line
 nnoremap B ^
@@ -152,6 +174,10 @@ cmap w!! %!sudo tee > /dev/null %
 
 " show line numbers 
 set number
+
+" show relative numbers for all but cur line, to make easier jumping
+set relativenumber
+
 " show last command
 set showcmd
 " show line
@@ -194,6 +220,8 @@ set expandtab
 
 autocmd Filetype javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2
 autocmd Filetype html setlocal shiftwidth=2 softtabstop=2 tabstop=2 
+autocmd Filetype python setlocal shiftwidth=2 softtabstop=2 tabstop=2
+autocmd Filetype cpp setlocal shiftwidth=2 softtabstop=2 tabstop=2
 
 set textwidth=160
 
@@ -206,7 +234,7 @@ set colorcolumn=80
 
 " papercolor
 set t_Co=256
-set background=light
+set background=dark
 colorscheme PaperColor
 
 set lazyredraw
@@ -218,6 +246,24 @@ set lazyredraw
 
 scriptencoding utf-8
 set encoding=utf-8
+
+" more descriptive statusline
+function! StatuslineGit()
+  let l:branchname = gitbranch#name()
+  return strlen(l:branchname) > 0?'['.l:branchname.'] ':''
+endfunction
+set statusline=%{StatuslineGit()} " git branch
+set statusline+=%f               " filename relative to current $PWD
+set statusline+=%h              " help file flag
+set statusline+=%m              " modified flag
+set statusline+=%r              " readonly flag
+"set statusline+=\ [%{&ff}]      " Fileformat [unix]/[dos] etc...
+"set statusline+=\ (%{strftime(\"%Y-%m-%d\ %H:%M\",getftime(expand(\"%:p\")))})  " last modified timestamp
+set statusline+=%=              " Rest: right align
+set statusline+=%l,%c%V         " Position in buffer: linenumber, column, virtual column
+set statusline+=\ %P            " Position in buffer: Percentage
+
+set laststatus=2"
 
 "set conceallevel=2
 "set concealcursor=n
@@ -251,7 +297,8 @@ set encoding=utf-8
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-map <C-n> :NERDTreeToggle<CR>
+" this conflicts with C-n mapping above, in hindsight i never use this
+"map <C-n> :NERDTreeToggle<CR>
 
 " disable autoclose in latex
 "autocmd BufNewFile,BufRead *.tex AutoCloseOff
@@ -260,12 +307,21 @@ map <C-n> :NERDTreeToggle<CR>
 autocmd BufWritePre *.py,*.js,*.css,*.html,*.tpl :%s/\s\+$//e
 
 " ale
-let g:ale_linters = {'python':['pyflakes'],'C':['gcc'],'C++':['gcc']}
+let g:ale_linters_explicit = 1
+let g:ale_linters = {'python':['pyflakes'],'c':['gcc'],'cpp':['clang']}
+
+let g:ale_cpp_cc_options = '-Wall -O2 -std=c++20'
+let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++20'
+let g:ale_cpp_clang_options = '-Wall -O2 -std=c++20'
 let g:ale_sign_column_always = 1
 nnoremap <leader>a :ALEHover<CR>
 
 " command t
 let g:CommandTSuppressMaxFilesWarning = 1
+
+" fzf
+nnoremap <leader>t :FZF<CR>
+inoremap <leader>t :FZF<CR>
 
 " tags
 nnoremap L <C-]>

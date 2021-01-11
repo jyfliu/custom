@@ -1,0 +1,190 @@
+" lightweight  vimrc
+" (no plugins)
+set nocompatible
+filetype off
+filetype plugin indent on
+syntax enable
+" vundle stuff over
+
+" change leader from default (/ or \ i forget) to ,
+let mapleader = ","
+
+" map kj to enter normal mode
+imap kj <Esc>
+
+" make backspace more like other text editors
+set backspace=indent,eol,start
+
+" better movement
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
+" center after scrolling to bottom
+nnoremap G Gzz
+
+" see 5 lines above and below cursor
+set so=0
+
+" chrome style tabs
+nnoremap <C-t> :tabe .<CR>
+nnoremap <C-w> :q<CR>
+
+
+" still be able to open panes (only vertical ones cus who uses horizontal panes)
+nnoremap <C-n> <C-w>v
+" we no longer can use <C-n> to open up nerd tree... but i never use that anyways
+
+" movement between panes
+nnoremap <C-h> <C-W>h
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-l> <C-W>l
+
+" resize splits
+nnoremap <Up>    :resize +2<CR>
+nnoremap <Down>  :resize -2<CR>
+nnoremap <Left>  :vertical resize +2<CR>
+nnoremap <Right> :vertical resize -2<CR>
+
+" better default positions
+set splitbelow
+set splitright
+
+" better delete
+nnoremap x "_x
+nnoremap d "_d
+nnoremap D "_D
+vnoremap d "_d
+nnoremap C "_C
+nnoremap c "_c
+vnoremap c "_c
+
+nnoremap <leader>d ""d
+nnoremap <leader>D ""D
+vnoremap <leader>d ""d
+nnoremap <leader>C ""C
+vnoremap <leader>c ""c
+
+" faster apply macro
+nnoremap Q @q
+
+" faster quit and save
+nnoremap <leader>q :q<cr>
+nnoremap <leader>s :w<cr>
+inoremap <leader>s <C-c>:w<cr>a
+
+" faster colon
+nnoremap <space> :
+vnoremap <space> :
+nnoremap ; :
+vnoremap ; :
+
+" faster change word (you can press . to repeat all instances of the word)
+nnoremap c* *``cgn
+nnoremap c# #``cgN
+nnoremap d* /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgn
+nnoremap d# ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
+
+" change word under cursor
+nnoremap cr bcw
+
+" better begin/end of line
+nnoremap B ^
+nnoremap E $
+vnoremap B ^
+vnoremap E $
+
+" cd vim into the directory of the current buffer
+nnoremap <leader>y :cd %:p:h<CR>
+
+" Make indenting and unindenting block selections not lose the selection
+vnoremap < <gv
+vnoremap > >gv
+
+" highlight the last inserted text
+nnoremap gV `[v`]
+
+" when editing a file that requires root, try to save using sudo
+cmap w!! %!sudo tee > /dev/null %
+
+" show line numbers 
+set number
+
+" show relative numbers for all but cur line, to make easier jumping
+set relativenumber
+
+" show last command
+set showcmd
+" show line
+set cursorline
+hi cursorline cterm=none term=none
+highlight CursorLine guibg=#303000 ctermbg=21
+
+" mouse
+set mouse=a
+
+" thin cursor
+if has("autocmd")
+  au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
+  au InsertEnter,InsertChange *
+    \ if v:insertmode == 'i' | 
+    \   silent execute '!echo -ne "\e[5 q"' | redraw! |
+    \ elseif v:insertmode == 'r' |
+    \   silent execute '!echo -ne "\e[3 q"' | redraw! |
+    \ endif
+  au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+endif
+
+" faster macros
+set lazyredraw
+" show matching brackets
+set showmatch
+
+" make searching better
+set incsearch
+set hlsearch
+nnoremap <leader><space> :nohlsearch<CR>
+
+" tab settings
+set tabstop=4
+set shiftwidth=4
+set autoindent
+set smartindent
+
+set expandtab
+
+autocmd Filetype javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2
+autocmd Filetype html setlocal shiftwidth=2 softtabstop=2 tabstop=2 
+autocmd Filetype python setlocal shiftwidth=2 softtabstop=2 tabstop=2
+autocmd Filetype cpp setlocal shiftwidth=2 softtabstop=2 tabstop=2
+
+set textwidth=160
+
+set colorcolumn=80
+
+scriptencoding utf-8
+set encoding=utf-8
+
+" more descriptive statusline
+function! StatuslineGit()
+  let l:branchname = gitbranch#name()
+  return strlen(l:branchname) > 0?'['.l:branchname.'] ':''
+endfunction
+set statusline=%{StatuslineGit()} " git branch
+set statusline+=%f               " filename relative to current $PWD
+set statusline+=%h              " help file flag
+set statusline+=%m              " modified flag
+set statusline+=%r              " readonly flag
+"set statusline+=\ [%{&ff}]      " Fileformat [unix]/[dos] etc...
+"set statusline+=\ (%{strftime(\"%Y-%m-%d\ %H:%M\",getftime(expand(\"%:p\")))})  " last modified timestamp
+set statusline+=%=              " Rest: right align
+set statusline+=%l,%c%V         " Position in buffer: linenumber, column, virtual column
+set statusline+=\ %P            " Position in buffer: Percentage
+
+set laststatus=2"
+
+" strip trailing white spaces in py, js, css, html, tpl files
+autocmd BufWritePre *.py,*.js,*.css,*.html,*.tpl :%s/\s\+$//e
+
