@@ -65,7 +65,19 @@ nnoremap <leader>d ""d
 nnoremap <leader>D ""D
 vnoremap <leader>d ""d
 nnoremap <leader>C ""C
+nnoremap <leader>c ""c
 vnoremap <leader>c ""c
+
+" copy to system clipboard
+nnoremap =d "+d
+nnoremap =D "+D
+vnoremap =d "+d
+nnoremap =C "+C
+nnoremap =c "+c
+vnoremap =c "+c
+nnoremap =Y "+Y
+nnoremap =y "+y
+vnoremap =y "+y
 
 " faster apply macro
 nnoremap Q @q
@@ -95,6 +107,9 @@ nnoremap B ^
 nnoremap E $
 vnoremap B ^
 vnoremap E $
+
+" visual block rebind
+nnoremap V <C-v>
 
 " cd vim into the directory of the current buffer
 nnoremap <leader>y :cd %:p:h<CR>

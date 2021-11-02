@@ -124,7 +124,19 @@ nnoremap <leader>d ""d
 nnoremap <leader>D ""D
 vnoremap <leader>d ""d
 nnoremap <leader>C ""C
+nnoremap <leader>c ""c
 vnoremap <leader>c ""c
+
+" copy to system clipboard
+nnoremap =d "+d
+nnoremap =D "+D
+vnoremap =d "+d
+nnoremap =C "+C
+nnoremap =c "+c
+vnoremap =c "+c
+nnoremap =Y "+Y
+nnoremap =y "+y
+vnoremap =y "+y
 
 " faster apply macro
 nnoremap Q @q
@@ -154,6 +166,9 @@ nnoremap B ^
 nnoremap E $
 vnoremap B ^
 vnoremap E $
+
+" visual block rebind
+nnoremap V <C-v>
 
 " Cycle through location list
 nnoremap <silent> <F2> :try<bar>:try<bar>lnext<bar>catch /^Vim\%((\a\+)\)\=:E553/<bar>lfirst<bar>catch/^Vim\%((\a\+)\)\=:E776/<bar>endtry<bar>catch /^Vim\%((\a\+)\)\=:E42/<bar>endtry<cr>
@@ -354,3 +369,8 @@ endif
 let g:flow#autoclose = 1
 let g:flow#showquickfix = 0
 let g:flow#omnifunc = 0
+
+" local vimrc
+" enable if you trust what you are opening
+" set exrc
+" set secure
