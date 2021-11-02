@@ -5,12 +5,12 @@
     com = commit
     coma = commit -a
     comaa = commit -a --amend
+    amend = commit --amend
     cp = cherry-pick
     br = branch
     st = status
     rb = rebase
     po = push origin
-    pop = push origin production:production
     f = fetch
     dom = diff origin/master
     domh = diff origin/master HEAD
